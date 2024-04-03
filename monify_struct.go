@@ -25,3 +25,30 @@ type ResponseGenerate struct {
 	ResponseCode      string `json:"responseCode"`
 	ResponseBody      GenerateTokenResponse
 }
+
+// This is the Request transacrion Body things you need to send to the body
+
+type TransactionRequestBody struct {
+	Amount             float64  `json:"amount"`
+	CustomerName       string   `json:"customerName"`
+	CustomerEmail      string   `json:"customerEmail"`
+	PaymentReference   string   `json:"paymentReference"`
+	PaymentDescription string   `json:"paymentDescription"`
+	CurrencyCode       string   `json:"currencyCode"`
+	RedirectUrl        string   `json:"redirectUrl"`
+	PaymentMethod      []string `json:"paymentMethod"`
+}
+type TransactionResponseBody struct {
+	TransactionReference string   `json:"transactionReference"`
+	PaymentReference     string   `json:"paymentReference"`
+	MerchantName         string   `json:"merchantName"`
+	ApiKey               string   `json:"apiKey"`
+	EnablePaymentMethod  []string `json:"enablePaymentMethod"`
+	CheckOutUrl          string   `json:"checkoutUrl"`
+}
+type TransactionResponse struct {
+	RequestSuccessful bool                   `json:"requestSuccessful"`
+	ResponseMessage   string                 `json:"responseMessage"`
+	ResponseCode      string                 `json:"responseCode"`
+	ResponseBody      TransactionRequestBody `jso:"responseBody"`
+}
