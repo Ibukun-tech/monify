@@ -1,10 +1,9 @@
 package monify
 
 import (
-	"context"
-	"encoding/base64"
+	"bytes"
 	"encoding/json"
-	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -16,34 +15,21 @@ func NewMonify(ApiKey, SrtKey, MainUrl string) *Monify {
 		Client:    &http.Client{},
 	}
 }
-
-func (m *Monify) GenerateToken(ctx context.Context) (*GenerateTokenResponse, error) {
-	url := fmt.Sprintf("%s%s", m.BaseUrl, EndPointLogin)
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, nil)
+func (m *Monify) run(method string, url string, payload, response interface{}) error {
+	var body io.Reader
+	if payload != nil {
+		val, _ := json.Marshal(payload)
+		body = bytes.NewReader(val)
+	}
+	req, err := http.NewRequest(method, url, body)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	// still need to work on the api connection key with the header to uderstan what I am doing
-	athrHeader := fmt.Sprintf("Basic %s", base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", m.ApiKey, mainUrl))))
-	req.Header.Add("Authorization", athrHeader)
-	resp, err := m.Client.Do(req)
+	res, err := m.Client.Do(req)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	if resp.StatusCode != http.StatusOK {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	var generateTokenResponse GenerateTokenResponse
-	err = json.NewDecoder(resp.Body).Decode(&generateTokenResponse)
-	if err != nil {
-		return nil, err
-	}
-	return &generateTokenResponse, nil
-}
-
-// Writing the code to initialize the transaction
-
-func (m *Monify) Transactions(ctx context.Context, bodyLoad TransactionRequestBody) error {
-
+	defer res.Body.Close()
+	json.NewDecoder(res.Body).Decode(&response)
+	return nil
 }
