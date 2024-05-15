@@ -1,7 +1,12 @@
 package main
 
-import "github.com/Ibukun-tech/monify"
+import (
+	"fmt"
+
+	"github.com/Ibukun-tech/monify"
+)
 
 func main() {
-	monify.NewMonify()
+	v1 := monify.NewMonify("ksksk", "ksksk", "ssjsj")
+	fmt.Println(v1.ApiKey)
 }

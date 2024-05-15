@@ -19,17 +19,13 @@ func (m *Monify) createToken() {
 func (m *Monify) generateToken() error {
 	url := fmt.Sprintf("%s%s", m.BaseUrl, EndPointLogin)
 	m.createToken()
-	m.IsBasic = true
 	req, err := http.NewRequest(http.MethodPost, url, nil)
 	if err != nil {
 		return nil
 	}
 	req.Header.Add("Content-type", "application/json")
-	if m.IsBasic {
-		req.Header.Add("Authorization", fmt.Sprintf("Basic %s", m.BasicToken))
-	} else {
-		req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", m.BearerToken))
-	}
+	req.Header.Add("Authorization", fmt.Sprintf("Basic %s", m.BasicToken))
+
 	resp, err := m.Client.Do(req)
 
 	if err != nil {

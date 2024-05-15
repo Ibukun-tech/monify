@@ -3,6 +3,7 @@ package monify
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 )
@@ -29,7 +30,12 @@ func (m *Monify) run(method string, url string, payload, response interface{}) e
 	if err != nil {
 		return err
 	}
+	req.Header.Add("Content-type", "application/json")
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", m.BearerToken))
 	defer res.Body.Close()
-	json.NewDecoder(res.Body).Decode(&response)
+	if err := json.NewDecoder(res.Body).Decode(&response); err != nil {
+		return nil
+	}
+
 	return nil
 }
