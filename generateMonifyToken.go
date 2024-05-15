@@ -43,3 +43,9 @@ func (m *Monify) generateToken() error {
 	m.BearerToken = response.ResponseBody.AccessToken
 	return nil
 }
+func (m *Monify) regenerateToken() error {
+	if err := m.generateToken(); err != nil {
+		return err
+	}
+	return nil
+}
