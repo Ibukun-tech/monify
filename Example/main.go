@@ -7,7 +7,5 @@ import (
 )
 
 func main() {
-	ctx := context.Background()
-	m := monify.NewMonify("jsjsjsj")
-	m.GenerateToken(ctx)
+
 }

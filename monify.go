@@ -8,16 +8,12 @@ import (
 	"net/http"
 )
 
-const (
-	mainUrl       = "https://sandbox.monnify.com"
-	EndPointLogin = "/api/v1/auth/login"
-)
-
-func NewMonify(ApiKey string) *Monify {
+func NewMonify(ApiKey, SrtKey, MainUrl string) *Monify {
 	return &Monify{
-		BaseUrl: mainUrl,
-		ApiKey:  ApiKey,
-		Client:  &http.Client{},
+		BaseUrl:   MainUrl,
+		ApiKey:    ApiKey,
+		SecretKey: SrtKey,
+		Client:    &http.Client{},
 	}
 }
 
