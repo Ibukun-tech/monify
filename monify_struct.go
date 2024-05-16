@@ -7,7 +7,6 @@ import (
 
 // This takes in the MainUrl,ApiKey and also takes into account the transport
 type Monify struct {
-	IsBasic     bool
 	BearerToken string
 	BasicToken  string
 	SecretKey   string
